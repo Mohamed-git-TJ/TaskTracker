@@ -1,6 +1,7 @@
 # This is my task-tracker project
 import json
 import os
+import datetime
 
 
 # Function to append new data to JSON file
@@ -20,26 +21,38 @@ def write_json(new_data, filename='data.json'):
 
 
 # SIMPLE MENU
-def option_1():
-    print("You selected Option 1.")
-    # Add your command logic here for Option 1
-    # New data to append
-
+def option_1(filename='data.json'):
+    print("ADD A TASK")
     taskDescription = input("What is the task about:" + "\n")
 
+    with open(filename, 'r+') as file:
+        file_data = json.load(file)
+
+    date = datetime.datetime.now()
+
     employee = {
-        "id": 1,
+        "id": len(file_data["emp_details"]) + 1,
         "description": taskDescription,
         "status": "todo",
-        "createdAt": "dateCreatedAt",
-        "updatedAt": "dateUpdated At"
+        "createdAt": str(date.strftime("%d%b%Y")),
+        "updatedAt": "dateUpdatedAt"
     }
+
     write_json(employee)
 
 
-def option_2():
-    print("You selected Option 2.")
-    # Add your command logic here for Option 2
+def option_2(filename='data.json'):
+    print("DELETE A TASK")
+
+    taskId = int(
+        input("Type the ID of the task you would like to delete" + "\n"))
+
+    with open(filename, 'r+') as file:
+        file_data = json.load(file)
+
+        file_data["emp_details"].pop(taskId - 1)
+        with open(filename, 'w') as file:
+            json.dump(file_data, file, indent=4)
 
 
 def option_3():
