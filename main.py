@@ -1,17 +1,18 @@
-# This is my task-tracker project
 import json
 import os
 import datetime
 
+# TASK TRACKER CLI
 
-# Function to append new data to JSON file
+
+# Append new data to JSON file
 def write_json(new_data, filename='data.json'):
     with open(filename, 'r+') as file:
-        # Load existing data into a dictionary
+        # Load data
         file_data = json.load(file)
 
-        # Append new data to the 'emp_details' list
-        file_data["emp_details"].append(new_data)
+        # Append new data to the 'tasks' list
+        file_data["tasks"].append(new_data)
 
         # Move the cursor to the beginning of the file
         file.seek(0)
@@ -20,49 +21,61 @@ def write_json(new_data, filename='data.json'):
         json.dump(file_data, file, indent=4)
 
 
-# SIMPLE MENU
+# Add a task to JSON file (Option 1)
 def option_1(filename='data.json'):
+    # Current date
+    date = datetime.datetime.now()
+
     print("ADD A TASK")
+
+    # Getting User Input
     taskDescription = input("What is the task about:" + "\n")
 
+    # Loading data
     with open(filename, 'r+') as file:
         file_data = json.load(file)
 
-    date = datetime.datetime.now()
-
-    employee = {
-        "id": len(file_data["emp_details"]) + 1,
+    # Task Structure
+    task = {
+        "id": len(file_data["tasks"]) + 1,
         "description": taskDescription,
         "status": "todo",
         "createdAt": str(date.strftime("%d%b%Y")),
         "updatedAt": "dateUpdatedAt"
     }
 
-    write_json(employee)
+    # Calling function to append data
+    write_json(task)
 
 
+# Delete task from JSON file (Option 2)
 def option_2(filename='data.json'):
     print("DELETE A TASK")
 
+    # Getting User Input and using it as id of the task
     taskId = int(
         input("Type the ID of the task you would like to delete" + "\n"))
 
+    # Loading data
     with open(filename, 'r+') as file:
         file_data = json.load(file)
 
-        file_data["emp_details"].pop(taskId - 1)
+        # Removing 'task' from list
+        file_data["tasks"].pop(taskId - 1)
+
+        # Write the updated data back to the file
         with open(filename, 'w') as file:
             json.dump(file_data, file, indent=4)
+
+    print("Task deleted succesfully")
 
 
 def option_3():
     print("You selected Option 3.")
-    # Add your command logic here for Option 3
 
 
 def option_4():
     print("You selected Option 4.")
-    # Add your command logic here for Option 4
 
 
 def main_menu():
@@ -91,11 +104,10 @@ def main_menu():
             print("Invalid choice. Please try again.")
 
 
-# Call the function to append data
 if os.path.isfile('data.json'):
     main_menu()
 else:
-    data = {"emp_details": []}
+    data = {"tasks": []}
     try:
         with open('data.json', 'w') as file:
             json.dump(data, file, indent=4)
