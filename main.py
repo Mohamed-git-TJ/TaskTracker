@@ -52,7 +52,7 @@ def option_1(filename='data.json'):
         "id": taskId,
         "description": taskDescription,
         "status": "todo",
-        "createdAt": str(date.strftime("%d/%b/%Y %H:%I")),
+        "createdAt": str(date.strftime("%d/%b/%Y %H:%M")),
         "updatedAt": "dateUpdatedAt"
     }
     
@@ -106,11 +106,11 @@ def option_3(filename='data.json'):
     
     # Task Structure
     task = {
-        "id": i.get("id"),
+        "id": taskId,
         "description": taskDescription,
         "status": "todo",
         "createdAt": i.get("createdAt"),
-        "updatedAt": str(date.strftime("%d/%b/%Y %H:%I"))
+        "updatedAt": str(date.strftime("%d/%b/%Y %H:%M"))
     }
     # Calling function to append data
     write_json(task)
