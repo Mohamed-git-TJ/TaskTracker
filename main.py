@@ -52,7 +52,7 @@ def option_1(filename='data.json'):
         "id": taskId,
         "description": taskDescription,
         "status": "todo",
-        "createdAt": str(date.strftime("%d%b%Y")),
+        "createdAt": str(date.strftime("%d/%b/%Y %H:%I")),
         "updatedAt": "dateUpdatedAt"
     }
     
@@ -86,9 +86,41 @@ def option_2(filename='data.json'):
     print("Task deleted succesfully")
 
 
-def option_3():
+def option_3(filename='data.json'):
     print("UPDATE TASK")
+    date = datetime.datetime.now()
+    # Loading data
+    with open(filename, 'r+') as file:
+        file_data = json.load(file)
+        
+    taskId = int(input("Type the ID of the task you would like to edit/update" + "\n"))
 
+    # Removing 'task' from list
+    for i in file_data["tasks"]:
+        if taskId == i.get("id"):
+            file_data["tasks"].remove(i)
+            # Write the updated data back to the file
+            with open(filename, 'w') as file:
+                json.dump(file_data, file, indent=4)
+            taskDescription = input("Set the new description:" + "\n")
+    
+    # Task Structure
+    task = {
+        "id": i.get("id"),
+        "description": taskDescription,
+        "status": "todo",
+        "createdAt": i.get("createdAt"),
+        "updatedAt": str(date.strftime("%d/%b/%Y %H:%I"))
+    }
+    # Calling function to append data
+    write_json(task)
+            
+            
+            
+    
+            
+           
+            
 
 def option_4():
     print("You selected Option 4.")
