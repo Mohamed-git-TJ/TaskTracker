@@ -36,7 +36,7 @@ def option_1(filename='data.json'):
     loop = True
     ids = []
     while loop:
-        taskId = int(input("What ID do you want to give to this task:" + "\n"))
+        taskId = input("What ID do you want to give to this task:" + "\n")
         for i in file_data["tasks"]:
             ids.append(i.get("id"))
         if taskId in ids:
@@ -66,7 +66,7 @@ def option_2(filename='data.json'):
     print("DELETE A TASK")
     
     # Getting User Input and using it as id of the task
-    taskId = int(input("Type the ID of the task you would like to delete" + "\n"))
+    taskId = input("Type the ID of the task you would like to delete" + "\n")
 
     # Loading data
     with open(filename, 'r+') as file:
@@ -93,7 +93,7 @@ def option_3(filename='data.json'):
     with open(filename, 'r+') as file:
         file_data = json.load(file)
         
-    taskId = int(input("Type the ID of the task you would like to edit/update" + "\n"))
+    taskId = input("Type the ID of the task you would like to edit/update" + "\n")
 
     # Removing 'task' from list
     for i in file_data["tasks"]:
@@ -122,8 +122,45 @@ def option_3(filename='data.json'):
            
             
 
-def option_4():
-    print("You selected Option 4.")
+def option_4(filename='data.json'):
+    
+    with open(filename, 'r+') as file:
+        file_data = json.load(file)
+    
+    header = ["ID", "DESCRIPTION", "STATUS", "DATE OF CREATION", "DATE OF UPDATE"]
+
+    def fixed_length(text, length):
+        if len(text) > length:
+            text = text[:length]
+        elif len(text) < length:
+            text = (text + " " * length)[:length]
+        return text
+    
+    print("-"*117)
+    print("| ", end=" ")
+    for colum in header:
+        print(fixed_length(colum, 20), end = " | ")
+    print()
+    print("-"*117)
+    
+    task = []
+    for row in file_data["tasks"]:
+        print("| ", end=" ")            
+        task.append(row.get("id"))
+        task.append(row.get("description"))
+        task.append(row.get("status"))
+        task.append(row.get("createdAt"))
+        task.append(row.get("updatedAt"))
+        
+        for colum in task:
+            print(fixed_length(colum, 20), end = " | ")
+        print()
+        print("-"*117)
+        task.clear()
+        
+        
+
+
 
 
 def main_menu():
@@ -131,7 +168,7 @@ def main_menu():
     print("1. Add a task")
     print("2. Delete a task")
     print("3. Update a task")
-    print("4. Option 4")
+    print("4. Tasks List")
     print("0. Exit")
 
     while True:
