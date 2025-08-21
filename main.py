@@ -46,12 +46,13 @@ def option_1(filename='data.json'):
                 
                 
     taskDescription = input("What is the task about:" + "\n")
-
+    status = "todo"
+    
     # Task Structure
     task = {
         "id": taskId,
         "description": taskDescription,
-        "status": "todo",
+        "status": status,
         "createdAt": str(date.strftime("%d/%b/%Y %H:%M")),
         "updatedAt": "dateUpdatedAt"
     }
@@ -108,7 +109,7 @@ def option_3(filename='data.json'):
     task = {
         "id": taskId,
         "description": taskDescription,
-        "status": "todo",
+        "status": i.get("status"),
         "createdAt": i.get("createdAt"),
         "updatedAt": str(date.strftime("%d/%b/%Y %H:%M"))
     }
@@ -136,43 +137,88 @@ def option_4(filename='data.json'):
             text = (text + " " * length)[:length]
         return text
     
-    print("-"*117)
-    print("| ", end=" ")
+    print("-"*114)
+    
     for colum in header:
         print(fixed_length(colum, 20), end = " | ")
     print()
-    print("-"*117)
+    print("-"*114)
     
     task = []
     for row in file_data["tasks"]:
-        print("| ", end=" ")            
+                  
         task.append(row.get("id"))
         task.append(row.get("description"))
         task.append(row.get("status"))
         task.append(row.get("createdAt"))
         task.append(row.get("updatedAt"))
         
+    
         for colum in task:
+            
             print(fixed_length(colum, 20), end = " | ")
         print()
-        print("-"*117)
+        print("-"*114)
         task.clear()
+   
+    
         
         
+def option_5(filename='data.json'):
+    with open(filename, 'r+') as file:
+        file_data = json.load(file)
+        
+    
+    taskId = input("Type the ID of the task you would like to mark down" + "\n")
+    
+    # Removing 'task' from list
+    for i in file_data["tasks"]:
+        if taskId == i.get("id"):
+            file_data["tasks"].remove(i)
+            # Write the updated data back to the file
+            with open(filename, 'w') as file:
+                json.dump(file_data, file, indent=4)
+            
+    status = ""
+    while True:
+        statusChoice = input("Would you like to mark the task as 'in-progress' or 'done' \n Type 1 or 2: ")
+        
+        if statusChoice == "1":
+            status = "in-progress"
+            break
+        elif statusChoice == "2":
+            status = "done"    
+            break
+        else:
+            print("Invalid choice. Please try again.")
 
+    # Task Structure
+    task = {
+        "id": taskId,
+        "description": i.get("description"),
+        "status": status,
+        "createdAt": i.get("createdAt"),
+        "updatedAt": i.get("updatedAt")
+    } 
+    # Calling function to append data
+    write_json(task)
+     
+    
 
 
 
 def main_menu():
     print("What do you want to do!")
-    print("1. Add a task")
-    print("2. Delete a task")
-    print("3. Update a task")
-    print("4. Tasks List")
-    print("0. Exit")
+    
 
     while True:
-        choice = input("Enter your choice (0-4): ")
+        print("1. Add a task")
+        print("2. Delete a task")
+        print("3. Update a task")
+        print("4. Tasks List")
+        print("5. Tasks status")
+        print("0. Exit")
+        choice = input("Enter your choice (0-5): ")
 
         if choice == "1":
             option_1()
@@ -182,6 +228,8 @@ def main_menu():
             option_3()
         elif choice == "4":
             option_4()
+        elif choice == "5":
+            option_5()
         elif choice == "0":
             print("Goodbye!")
             break
