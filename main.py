@@ -137,31 +137,119 @@ def option_4(filename='data.json'):
             text = (text + " " * length)[:length]
         return text
     
-    print("-"*114)
     
-    for colum in header:
-        print(fixed_length(colum, 20), end = " | ")
-    print()
-    print("-"*114)
     
-    task = []
-    for row in file_data["tasks"]:
-                  
-        task.append(row.get("id"))
-        task.append(row.get("description"))
-        task.append(row.get("status"))
-        task.append(row.get("createdAt"))
-        task.append(row.get("updatedAt"))
-        
-    
-        for colum in task:
-            
+    def print_allTasks():
+        print("-"*114)
+        for colum in header:
             print(fixed_length(colum, 20), end = " | ")
         print()
         print("-"*114)
-        task.clear()
-   
+        
+        task = []
+        for row in file_data["tasks"]:
+                    
+            task.append(row.get("id"))
+            task.append(row.get("description"))
+            task.append(row.get("status"))
+            task.append(row.get("createdAt"))
+            task.append(row.get("updatedAt"))
+            
+        
+            for colum in task:
+                
+                print(fixed_length(colum, 20), end = " | ")
+            print()
+            print("-"*114)
+            task.clear()
+            
+    def print_doneTasks():
+        print("-"*114)
+        for colum in header:
+            print(fixed_length(colum, 20), end = " | ")
+        print()
+        print("-"*114)
+        
+        task = []
+        for row in file_data["tasks"]:
+                    
+            task.append(row.get("id"))
+            task.append(row.get("description"))
+            task.append(row.get("status"))
+            task.append(row.get("createdAt"))
+            task.append(row.get("updatedAt"))
+            
+        
+            for colum in task:
+                if row.get("status") == "done":
+                    print(fixed_length(colum, 20), end = " | ")
+            print()
+            print("-"*114)
+            task.clear()
     
+    def print_inProgressTasks():
+        print("-"*114)
+        for colum in header:
+            print(fixed_length(colum, 20), end = " | ")
+        print()
+        print("-"*114)
+        
+        task = []
+        for row in file_data["tasks"]:
+                    
+            task.append(row.get("id"))
+            task.append(row.get("description"))
+            task.append(row.get("status"))
+            task.append(row.get("createdAt"))
+            task.append(row.get("updatedAt"))
+            
+        
+            for colum in task:
+                if row.get("status") == "in-progress":
+                    print(fixed_length(colum, 20), end = " | ")
+            print()
+            print("-"*114)
+            task.clear()
+    
+    def print_todoTasks():
+        print("-"*114)
+        for colum in header:
+            print(fixed_length(colum, 20), end = " | ")
+        print()
+        print("-"*114)
+        
+        task = []
+        for row in file_data["tasks"]:
+                    
+            task.append(row.get("id"))
+            task.append(row.get("description"))
+            task.append(row.get("status"))
+            task.append(row.get("createdAt"))
+            task.append(row.get("updatedAt"))
+            
+        
+            for colum in task:
+                if row.get("status") == "todo":
+                    print(fixed_length(colum, 20), end = " | ")
+            print()
+            print("-"*114)
+            task.clear()
+            
+    while True:
+        choice = input("What list would you like to see 1, 2, 3 or 4: ")
+        
+        if choice == "1":
+            print_allTasks()
+        elif choice == "2":
+            print_doneTasks()
+        elif choice == "3":
+            print_inProgressTasks()
+        elif choice == "4":
+            print_todoTasks()
+        elif choice == "0":    
+            break
+        else:
+            print("Invalid choice. Please try again.")
         
         
 def option_5(filename='data.json'):
